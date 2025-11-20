@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import useTaskStore from '../useTaskStore';
 import { api } from '../../services/api';
 import type { Task } from '../../types';
@@ -37,7 +37,7 @@ describe('useTaskStore', () => {
     });
 
     it('fetches tasks on mount', async () => {
-        (api.getTasks as any).mockResolvedValue(mockTasks);
+        (api.getTasks as Mock).mockResolvedValue(mockTasks);
 
         const { result } = renderHook(() => useTaskStore());
 
@@ -54,8 +54,8 @@ describe('useTaskStore', () => {
     });
 
     it('adds a task', async () => {
-        (api.getTasks as any).mockResolvedValue([]);
-        (api.createTask as any).mockImplementation(async (task: Task) => task);
+        (api.getTasks as Mock).mockResolvedValue([]);
+        (api.createTask as Mock).mockImplementation(async (task: Task) => task);
 
         const { result } = renderHook(() => useTaskStore());
 
@@ -77,8 +77,8 @@ describe('useTaskStore', () => {
     });
 
     it('updates a task', async () => {
-        (api.getTasks as any).mockResolvedValue(mockTasks);
-        (api.updateTask as any).mockResolvedValue({ ...mockTasks[0], status: 'done' });
+        (api.getTasks as Mock).mockResolvedValue(mockTasks);
+        (api.updateTask as Mock).mockResolvedValue({ ...mockTasks[0], status: 'done' });
 
         const { result } = renderHook(() => useTaskStore());
 
@@ -93,8 +93,8 @@ describe('useTaskStore', () => {
     });
 
     it('deletes a task', async () => {
-        (api.getTasks as any).mockResolvedValue(mockTasks);
-        (api.deleteTask as any).mockResolvedValue(undefined);
+        (api.getTasks as Mock).mockResolvedValue(mockTasks);
+        (api.deleteTask as Mock).mockResolvedValue(undefined);
 
         const { result } = renderHook(() => useTaskStore());
 
@@ -110,7 +110,7 @@ describe('useTaskStore', () => {
     });
 
     it('handles fetch error', async () => {
-        (api.getTasks as any).mockRejectedValue(new Error('Failed to fetch'));
+        (api.getTasks as Mock).mockRejectedValue(new Error('Failed to fetch'));
 
         const { result } = renderHook(() => useTaskStore());
 

@@ -17,7 +17,7 @@ const useTaskStore = () => {
         try {
             const data = await api.getTasks();
             setTasks(data);
-        } catch (err) {
+        } catch {
             setError('Failed to fetch tasks');
         } finally {
             setLoading(false);
@@ -34,7 +34,7 @@ const useTaskStore = () => {
             };
             await api.createTask(newTask);
             setTasks((prev) => [...prev, newTask]);
-        } catch (err) {
+        } catch {
             setError('Failed to add task');
         } finally {
             setLoading(false);
@@ -53,7 +53,7 @@ const useTaskStore = () => {
             if (taskToUpdate) {
                 await api.updateTask({ ...taskToUpdate, ...updatedFields });
             }
-        } catch (err) {
+        } catch {
             setError('Failed to update task');
             setTasks(previousTasks); // Revert on error
         }
@@ -66,7 +66,7 @@ const useTaskStore = () => {
 
         try {
             await api.deleteTask(id);
-        } catch (err) {
+        } catch {
             setError('Failed to delete task');
             setTasks(previousTasks); // Revert on error
         }

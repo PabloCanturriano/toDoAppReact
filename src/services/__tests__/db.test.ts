@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { db } from '../db';
 import { openDB } from 'idb';
 import type { Task } from '../../types';
@@ -29,7 +29,7 @@ describe('db service', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        (openDB as any).mockResolvedValue(mockDb);
+        (openDB as Mock).mockResolvedValue(mockDb);
     });
 
     it('gets all tasks', async () => {
