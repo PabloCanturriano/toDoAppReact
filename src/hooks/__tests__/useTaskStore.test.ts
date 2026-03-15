@@ -105,7 +105,7 @@ describe('useTaskStore', () => {
         });
 
         expect(result.current.tasks).toHaveLength(1);
-        expect(result.current.tasks.find(t => t.id === '1')).toBeUndefined();
+        expect(result.current.tasks.find((t) => t.id === '1')).toBeUndefined();
         expect(api.deleteTask).toHaveBeenCalledTimes(1);
     });
 

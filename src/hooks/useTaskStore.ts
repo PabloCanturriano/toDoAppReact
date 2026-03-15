@@ -42,7 +42,6 @@ const useTaskStore = () => {
     };
 
     const updateTask = async (id: string, updatedFields: Partial<Task>) => {
-        // Optimistic update
         const previousTasks = [...tasks];
         setTasks((prev) =>
             prev.map((task) => (task.id === id ? { ...task, ...updatedFields } : task))
@@ -55,12 +54,11 @@ const useTaskStore = () => {
             }
         } catch {
             setError('Failed to update task');
-            setTasks(previousTasks); // Revert on error
+            setTasks(previousTasks);
         }
     };
 
     const deleteTask = async (id: string) => {
-        // Optimistic update
         const previousTasks = [...tasks];
         setTasks((prev) => prev.filter((task) => task.id !== id));
 
@@ -68,7 +66,7 @@ const useTaskStore = () => {
             await api.deleteTask(id);
         } catch {
             setError('Failed to delete task');
-            setTasks(previousTasks); // Revert on error
+            setTasks(previousTasks);
         }
     };
 

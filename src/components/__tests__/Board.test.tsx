@@ -24,9 +24,8 @@ const mockTasks: Task[] = [
 ];
 
 vi.mock('../TaskModal', () => ({
-    default: ({ open }: { open: boolean }) => (
-        open ? <div data-testid="task-modal">Task Modal Open</div> : null
-    ),
+    default: ({ open }: { open: boolean }) =>
+        open ? <div data-testid="task-modal">Task Modal Open</div> : null,
 }));
 
 describe('Board', () => {

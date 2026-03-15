@@ -10,15 +10,10 @@ interface SortableTaskProps {
     onDelete: (taskId: string) => void;
 }
 
-export const SortableTask: React.FC<SortableTaskProps> = (props) => {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id: props.task.id });
+export const SortableTask: React.FC<SortableTaskProps> = React.memo((props) => {
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+        id: props.task.id,
+    });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -31,4 +26,6 @@ export const SortableTask: React.FC<SortableTaskProps> = (props) => {
             <TaskCard {...props} />
         </div>
     );
-};
+});
+
+SortableTask.displayName = 'SortableTask';

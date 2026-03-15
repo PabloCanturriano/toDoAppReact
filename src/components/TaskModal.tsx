@@ -26,12 +26,14 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onCancel, onSave, initialTa
                     endDate: initialTask.endDate ? dayjs(initialTask.endDate) : undefined,
                 });
                 // eslint-disable-next-line
-                setFileList(initialTask.attachments.map(a => ({
-                    uid: a.id,
-                    name: a.name,
-                    status: 'done',
-                    url: a.content
-                })));
+                setFileList(
+                    initialTask.attachments.map((a) => ({
+                        uid: a.id,
+                        name: a.name,
+                        status: 'done',
+                        url: a.content,
+                    }))
+                );
             } else {
                 form.resetFields();
                 form.setFieldsValue({ status: 'todo' });
@@ -51,20 +53,21 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onCancel, onSave, initialTa
                             id: file.uid,
                             name: file.name,
                             type: 'unknown',
-                            content: file.url
+                            content: file.url,
                         };
                     }
                     return new Promise<Attachment>((resolve, reject) => {
                         const reader = new FileReader();
                         const fileToRead = file.originFileObj || (file as RcFile);
                         reader.readAsDataURL(fileToRead);
-                        reader.onload = () => resolve({
-                            id: uuidv4(),
-                            name: file.name,
-                            type: file.type || 'unknown',
-                            content: reader.result as string
-                        });
-                        reader.onerror = error => reject(error);
+                        reader.onload = () =>
+                            resolve({
+                                id: uuidv4(),
+                                name: file.name,
+                                type: file.type || 'unknown',
+                                content: reader.result as string,
+                            });
+                        reader.onerror = (error) => reject(error);
                     });
                 })
             );
@@ -108,14 +111,18 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onCancel, onSave, initialTa
 
     return (
         <Modal
-            title={initialTask ? "Edit Task" : "Add Task"}
+            title={initialTask ? 'Edit Task' : 'Add Task'}
             open={open}
             onOk={handleOk}
             onCancel={onCancel}
             destroyOnHidden
         >
             <Form form={form} layout="vertical">
-                <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Please enter a title' }]}>
+                <Form.Item
+                    name="title"
+                    label="Title"
+                    rules={[{ required: true, message: 'Please enter a title' }]}
+                >
                     <Input />
                 </Form.Item>
                 <Form.Item name="description" label="Description">
@@ -129,10 +136,20 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onCancel, onSave, initialTa
                     </Select>
                 </Form.Item>
                 <Form.Item label="Dates" style={{ marginBottom: 0 }}>
-                    <Form.Item name="startDate" style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}>
+                    <Form.Item
+                        name="startDate"
+                        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+                    >
                         <DatePicker placeholder="Start Date" style={{ width: '100%' }} />
                     </Form.Item>
-                    <Form.Item name="endDate" style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 16px' }}>
+                    <Form.Item
+                        name="endDate"
+                        style={{
+                            display: 'inline-block',
+                            width: 'calc(50% - 8px)',
+                            margin: '0 0 0 16px',
+                        }}
+                    >
                         <DatePicker placeholder="End Date" style={{ width: '100%' }} />
                     </Form.Item>
                 </Form.Item>
@@ -142,21 +159,57 @@ const TaskModal: React.FC<TaskModalProps> = ({ open, onCancel, onSave, initialTa
                     </Upload>
                     {fileList.length > 0 && (
                         <div style={{ marginTop: 16 }}>
-                            <Carousel autoplay style={{ background: '#364d79', padding: '20px', borderRadius: '8px' }}>
+                            <Carousel
+                                autoplay
+                                style={{
+                                    background: '#364d79',
+                                    padding: '20px',
+                                    borderRadius: '8px',
+                                }}
+                            >
                                 {fileList.map((file) => {
-                                    const url = file.url || (file.originFileObj ? URL.createObjectURL(file.originFileObj) : null);
+                                    const url =
+                                        file.url ||
+                                        (file.originFileObj
+                                            ? URL.createObjectURL(file.originFileObj)
+                                            : null);
                                     if (!url && !file.thumbUrl) return null;
                                     const src = url || file.thumbUrl;
 
                                     return (
                                         <div key={file.uid}>
-                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
-                                                {file.type?.startsWith('image/') || src?.startsWith('data:image') ? (
-                                                    <img src={src} alt={file.name} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    height: '200px',
+                                                }}
+                                            >
+                                                {file.type?.startsWith('image/') ||
+                                                src?.startsWith('data:image') ? (
+                                                    <img
+                                                        src={src}
+                                                        alt={file.name}
+                                                        style={{
+                                                            maxHeight: '100%',
+                                                            maxWidth: '100%',
+                                                            objectFit: 'contain',
+                                                        }}
+                                                    />
                                                 ) : (
-                                                    <div style={{ color: '#fff', textAlign: 'center' }}>
-                                                        <PaperClipOutlined style={{ fontSize: 48 }} />
-                                                        <div style={{ marginTop: 8 }}>{file.name}</div>
+                                                    <div
+                                                        style={{
+                                                            color: '#fff',
+                                                            textAlign: 'center',
+                                                        }}
+                                                    >
+                                                        <PaperClipOutlined
+                                                            style={{ fontSize: 48 }}
+                                                        />
+                                                        <div style={{ marginTop: 8 }}>
+                                                            {file.name}
+                                                        </div>
                                                     </div>
                                                 )}
                                             </div>

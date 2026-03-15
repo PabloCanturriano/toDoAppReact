@@ -33,20 +33,22 @@ A modern, Kanban-style task management application built with React, TypeScript,
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd todo-app-react
-   ```
+
+    ```bash
+    git clone <repository-url>
+    cd todo-app-react
+    ```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 ## Available Scripts
 

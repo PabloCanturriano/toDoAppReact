@@ -1,6 +1,11 @@
 import React from 'react';
 import { Card, Typography, Tag, Space, Button, Tooltip, Popconfirm } from 'antd';
-import { ClockCircleOutlined, PaperClipOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import {
+    ClockCircleOutlined,
+    PaperClipOutlined,
+    DeleteOutlined,
+    EditOutlined,
+} from '@ant-design/icons';
 import type { Task } from '../types';
 import dayjs from 'dayjs';
 
@@ -12,7 +17,7 @@ interface TaskCardProps {
     onDelete: (taskId: string) => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onDelete }) => {
+const TaskCard: React.FC<TaskCardProps> = React.memo(({ task, onEdit, onDelete }) => {
     const priorityColor = (endDate?: string) => {
         if (!endDate) return 'default';
         const daysLeft = dayjs(endDate).diff(dayjs(), 'day');
@@ -68,26 +73,47 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onDelete }) => {
                     )}
                     {task.attachments.length > 0 && (
                         <div style={{ display: 'flex', gap: 4, marginTop: 8, overflowX: 'auto' }}>
-                            {task.attachments.map((att) => (
-                                att.type.startsWith('image/') || att.content.startsWith('data:image') ? (
+                            {task.attachments.map((att) =>
+                                att.type.startsWith('image/') ||
+                                att.content.startsWith('data:image') ? (
                                     <img
                                         key={att.id}
                                         src={att.content}
                                         alt={att.name}
-                                        style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4, border: '1px solid #f0f0f0' }}
+                                        style={{
+                                            width: 40,
+                                            height: 40,
+                                            objectFit: 'cover',
+                                            borderRadius: 4,
+                                            border: '1px solid #f0f0f0',
+                                        }}
                                     />
                                 ) : (
-                                    <div key={att.id} style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5', borderRadius: 4, border: '1px solid #f0f0f0' }}>
+                                    <div
+                                        key={att.id}
+                                        style={{
+                                            width: 40,
+                                            height: 40,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            background: '#f5f5f5',
+                                            borderRadius: 4,
+                                            border: '1px solid #f0f0f0',
+                                        }}
+                                    >
                                         <PaperClipOutlined />
                                     </div>
                                 )
-                            ))}
+                            )}
                         </div>
                     )}
                 </Space>
             </Space>
         </Card>
     );
-};
+});
+
+TaskCard.displayName = 'TaskCard';
 
 export default TaskCard;
