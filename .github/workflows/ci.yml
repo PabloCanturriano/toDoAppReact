@@ -8,7 +8,6 @@ on:
 
 jobs:
     ci:
-        name: Type check, lint & test
         runs-on: ubuntu-latest
 
         steps:
